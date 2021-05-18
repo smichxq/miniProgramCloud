@@ -1,4 +1,4 @@
-//app.js
+//app.jsk
 App({
   onLaunch: function () {
     if (!wx.cloud) {
