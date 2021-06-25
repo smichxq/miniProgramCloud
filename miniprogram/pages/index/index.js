@@ -29,6 +29,8 @@ Page({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo
               })
+              console.log(res.userInfo.avatarUrl)
+              console.log(res.userInfo)
             }
           })
         }
@@ -37,6 +39,8 @@ Page({
   },
 
   onGetUserInfo: function(e) {
+    // console.log(e)
+    console.log('onGetUserInfo: loged->',this.data.logged)
     if (!this.data.logged && e.detail.userInfo) {
       this.setData({
         logged: true,
@@ -57,6 +61,7 @@ Page({
         wx.navigateTo({
           url: '../userConsole/userConsole',
         })
+        console.log('onGetOpenid: logged->',this.data.logged)
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)

@@ -60,7 +60,46 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function () { 
 
-  }
+  },
+
+  _handlerSumbit:function(evt){
+    //get Account and pwd
+    let username = evt.detail.value.username;
+    let password = evt.detail.value.password;
+
+    //get cloudDb refer
+    const db = wx.cloud.database();
+    //get collection refer
+    const userCollection = db.collection("counters");
+    //use refer add data into dbCollection
+
+    //register
+    if (evt.detail.target.id === "register"){
+      userCollection.add({
+        data:{
+          username:username,
+          password:password
+        }
+      });
+    }
+
+      //login
+      else{
+        userCollection.where({
+          username:username,
+          password:password
+        }).get().then(res=>{
+          console.log("success! ",res.data);
+
+        }).catch(err=>{
+          console.log("err!",err);
+        })
+      }
+
+
+    },
+
+  
 })

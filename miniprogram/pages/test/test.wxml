@@ -1,3 +1,9 @@
 <!--miniprogram/pages/test/test.wxml-->
-<text>miniprogram/pages/test/test.wxml</text>
+<!-- <text>miniprogram/pages/test/test.wxml</text> -->
 
+<form bindsubmit="_handlerSumbit">
+<input  placeholder="请输入账号" name="username"></input>
+<input  placeholder="请输入密码" name="password" ></input>
+<button form-type="submit"  id="register" >注册</button>
+<button form-type="submit"id="login" >登录</button>
+</form>
