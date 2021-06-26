@@ -1,0 +1,3 @@
+<button open-type="getUserInfo" bindgetuserinfo="getUserInformation">点击获取用户信息</button>
+<view>{{city}}</view>
+<view>{{nickName}}</view>
