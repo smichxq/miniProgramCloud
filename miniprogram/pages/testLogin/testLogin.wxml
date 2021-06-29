@@ -1,3 +1,12 @@
 <button open-type="getUserInfo" bindgetuserinfo="getUserInformation">点击获取用户信息</button>
-<view>{{city}}</view>
-<view>{{nickName}}</view>
+<!-- <view>{{city}}</view> -->
+<!-- <view>{{nickName}}</view> -->
+
+
+<form bindsubmit="cloudFunTest">
+<input placeholder="a" name="a"></input>
+<input placeholder="b" name="b"></input>
+<button form-type="submit" hover-stay-time="10">确认</button>
+
+<view>结果:{{CalculateData}}</view>
+</form>
