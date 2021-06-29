@@ -83,9 +83,9 @@ Page({
     // console.log("b",typeof(b));
     console.log("a+b",a+b);
 
-    this.setData({
-      "CalculateData":a+b
-    })
+    // this.setData({
+    //   "CalculateData":a+b
+    // })
 
 
 
@@ -94,25 +94,25 @@ Page({
     let sum = 0;
 
     //获取云函数调用
+    
+    wx.cloud.callFunction({
 
-    // wx.cloud.callFunction({
+      //调用函数名
+      name: 'sum',
 
-    //   //调用函数名
-    //   name: 'sum',
+      //传递参数
 
-    //   //传递参数
-
-    //   data: {
-    //     a: a,
-    //     b: b,
-    //   },
-    // })
-    // .then(res => {
-    //   this.setData({
-    //     CalculateData: res.result.sum
-    //   })
-    // })
-    // .catch(console.error)
+      data: {
+        a: a,
+        b: b,
+      },
+    })
+    .then(res => {
+      this.setData({
+        CalculateData: res.result.sum
+      })
+    })
+    .catch(console.error)
 
 
   },
