@@ -7,11 +7,9 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
-    canIUseGetUserProfile: false,
     CalculateData:"",
     userOpenid:"",
-
-
+    userInfoCanShow: false,
   },
 
   /**
@@ -19,13 +17,22 @@ Page({
    */
   onLoad: function (options) {
 
-    //页面加载期间如果获得了用户信息
-    if (wx.getUserProfile) {
-      this.setData({
-        canIUseGetUserProfile: true
-      })
 
-    }
+    //页面加载期间调用云函数获取用户openid
+    wx.cloud.callFunction({
+
+      //调用函数名
+      name: 'login',
+
+    })
+    .then(res => {
+      console.log("success")
+      this.setData({
+        "userOpenid": res.result.openid,
+        "hasUserInfo": true
+      })
+    })
+    .catch(console.error)
 
   },
 
@@ -71,30 +78,21 @@ Page({
 
   },
 
-  //获取用户唯一标识(openid)
+  //获取用户个人信息()
   getUserInformation:function(event){
-    // console.log('getUserInfomation打印的事件对象', event)
-    // let { avatarUrl, city, nickName}= event.detail.userInfo
-    // this.setData({
-    //   avatarUrl, city, nickName
-    // })
-        //获取云函数调用
-    
-        wx.cloud.callFunction({
-
-          //调用函数名
-          name: 'login',
-
-        })
-        .then(res => {
-          console.log("success")
+    //获取到了用户openid
+    if(this.data.hasUserInfo){
+      wx.getUserProfile({
+        desc: 'desc',
+        success: (res) => {
           this.setData({
-            "userOpenid": res.result.openid
+            userInfo: res.userInfo,
+            userInfoCanShow: true
           })
-        })
-        .catch(console.error)
-
-
+          console.log(this.data.userInfo)
+        }
+      })
+    }
 
 
   },
