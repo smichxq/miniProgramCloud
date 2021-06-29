@@ -5,10 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // avatarUrl:'/miniprogram/images/code-cloud-callback-config.png',
-    nickName:"未登录",
-    city:"未知",
+    userInfo: {},
+    hasUserInfo: false,
+    canIUseGetUserProfile: false,
     CalculateData:"",
+    userOpenid:"",
 
 
   },
@@ -17,6 +18,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    //页面加载期间如果获得了用户信息
+    if (wx.getUserProfile) {
+      this.setData({
+        canIUseGetUserProfile: true
+      })
+
+    }
 
   },
 
@@ -62,14 +71,34 @@ Page({
 
   },
 
-  //获取用户授权
+  //获取用户唯一标识(openid)
   getUserInformation:function(event){
-    console.log('getUserInfomation打印的事件对象', event)
-    let { avatarUrl, city, nickName}= event.detail.userInfo
-    this.setData({
-      avatarUrl, city, nickName
-    })
+    // console.log('getUserInfomation打印的事件对象', event)
+    // let { avatarUrl, city, nickName}= event.detail.userInfo
+    // this.setData({
+    //   avatarUrl, city, nickName
+    // })
+        //获取云函数调用
+    
+        wx.cloud.callFunction({
+
+          //调用函数名
+          name: 'login',
+
+        })
+        .then(res => {
+          console.log("success")
+          this.setData({
+            "userOpenid": res.result.openid
+          })
+        })
+        .catch(console.error)
+
+
+
+
   },
+
 
   //计算触发
   cloudFunTest:function(event){
