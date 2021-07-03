@@ -1,5 +1,5 @@
 
-<button bindtap="getUserInformation">点击获取用户信息</button>
+<button bindtap="getUserInformation" hover-stay-time="200" type="default">点击获取用户信息</button>
 
 <view wx:if="{{userInfoCanShow}}">
   <view>昵称：{{userInfo.nickName}}</view>

@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/testLogin/testLogin",
-    "pages/testUser/testUser",
     "pages/test/test",
+    "pages/testUser/testUser",
+    "pages/testLogin/testLogin",
     "pages/index/index",
     "pages/userConsole/userConsole",
     "pages/storageConsole/storageConsole",

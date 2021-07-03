@@ -9,6 +9,12 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 })
 
+//获取数据库引用
+const db = cloud.database()
+
+//获取集合引用
+const UserCollection = db.collection('Users')
+
 /**
  * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端
  * 
@@ -24,13 +30,37 @@ exports.main = async (event, context) => {
 
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
   const wxContext = cloud.getWXContext()
+  const usetExist = UserCollection.where({
+    // _id: wxContext.OPENID
+    UAge: '1'
+  }).get()
 
-  return {
-    event,
-    openid: wxContext.OPENID,
-    appid: wxContext.APPID,
-    unionid: wxContext.UNIONID,
-    env: wxContext.ENV,
+  //判断用户是否存在
+  if (usetExist === 1){
+    //返回给小程序端
+    return {
+      event,
+      openid: wxContext.OPENID,
+      appid: wxContext.APPID,
+      unionid: wxContext.UNIONID,
+      env: wxContext.ENV,
+      userExist: usetExist,
+    }
+    
   }
+
+  else{
+    return {
+      event,
+      userExist: usetExist,
+    }
+
+  }
+
+
+
+  
+
+
 }
 

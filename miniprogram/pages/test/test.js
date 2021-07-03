@@ -13,6 +13,9 @@ Page({
    */
   onLoad: function (options) {
 
+    //加载期间存取openid
+
+
   },
 
   /**
@@ -87,15 +90,24 @@ Page({
 
       //login
       else{
-        userCollection.where({
-          username:username,
-          password:password
-        }).get().then(res=>{
-          console.log("success! ",res.data);
-
-        }).catch(err=>{
-          console.log("err!",err);
+        wx.cloud.callFunction({
+          name: 'login',
         })
+        .then(res => {
+          console.log(res.result.userExist)
+        })
+        .catch(console.log("fall!!!!"))
+
+        // userCollection.where({
+        //   username:username,
+        //   password:password
+        // }).get().then(res=>{
+        //   console.log("success! ",res.data);
+
+        // }).catch(err=>{
+        //   console.log("err!",err);
+        // })
+
       }
 
 
