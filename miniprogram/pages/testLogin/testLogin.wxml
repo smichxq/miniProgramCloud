@@ -3,7 +3,8 @@
 
 <view wx:if="{{userInfoCanShow}}">
   <view>昵称：{{userInfo.nickName}}</view>
-  <view>唯一标识：{{userOpenid}}</view>
+  <!-- <view>唯一标识：{{userOpenid}}</view> -->
+  <image src="{{imgUrl}}"></image>
 </view>
 
 
@@ -13,10 +14,10 @@
 
 
 
-<form bindsubmit="cloudFunTest">
+<!-- <form bindsubmit="cloudFunTest">
 <input placeholder="a" name="a"></input>
 <input placeholder="b" name="b"></input>
 <button form-type="submit" hover-stay-time="10">确认</button>
 
 <view>结果:{{CalculateData}}</view>
-</form>
+</form> -->

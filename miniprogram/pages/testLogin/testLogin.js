@@ -6,10 +6,12 @@ Page({
    */
   data: {
     userInfo: {},
+    userOpenid:"",
     hasUserInfo: false,
     CalculateData:"",
     userInfoCanShow: false,
-    openidExistInCloud:false,
+    openidExistInDB:false,
+    imgUrl:"",
   },
 
   /**
@@ -28,12 +30,10 @@ Page({
     .then(res => {
       console.log("success")
 
-
-
       //用户未注册-点击按钮后进入个人信息设置页面并传送调用login
       if (!res.result.UserExist){
         this.setData({
-          openidExistInCloud: false
+          openidExistInDB: false
         })
         
       }
@@ -41,7 +41,7 @@ Page({
       else {
         this.setData({
           userInfo: res.result.dbResult,
-          openidExistInCloud: true
+          openidExistInDB: true
         })
         console.log(res.result.dbResult.data[0]._id)
       }
@@ -96,19 +96,32 @@ Page({
 
   //获取用户个人信息()
   getUserInformation:function(event){
-    //获取到了用户openid
-    if(this.data.hasUserInfo){
+    
+    //弹出用户信息对话框
       wx.getUserProfile({
         desc: 'desc',
         success: (res) => {
           this.setData({
             userInfo: res.userInfo,
-            userInfoCanShow: true
+            userInfoCanShow: true,
+            imgUrl: res.userInfo.avatarUrl,
+            // userOpenid: res.userInfo
           })
-          console.log(this.data.userInfo)
+          console.log(this.data.imgUrl)
         }
       })
-    }
+
+      //判断用户是否存在DB
+      if (this.data.openidExistInDB){
+        //跳转到主页面
+      }
+
+      //未存在的用户已在访问期间自动存放openid到DB
+      else{
+        //调用数据库引用上传数据到数据库
+        //上传到主页面
+
+      }
 
 
   },
