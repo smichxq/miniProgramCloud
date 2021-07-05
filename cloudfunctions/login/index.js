@@ -10,7 +10,10 @@ cloud.init({
 })
 
 //获取数据库引用
-const db = cloud.database()
+const db = cloud.database({
+  //不抛出异常
+  throwOnNotFound: false
+})
 
 //获取集合引用
 const UserCollection = db.collection('Users')
@@ -22,6 +25,7 @@ const UserCollection = db.collection('Users')
  * 
  */
 exports.main = async (event, context) => {
+  
   console.log(event)
   console.log(context)
 
@@ -30,32 +34,64 @@ exports.main = async (event, context) => {
 
   // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）等信息
   const wxContext = cloud.getWXContext()
-  const usetExist = UserCollection.where({
-    // _id: wxContext.OPENID
-    UAge: '1'
+  const _ = db.command
+  //数据库查询必须使用await
+  //返回值为array如果存在则返回一个符合条件的数组
+  var dbResults = await UserCollection.where({
+    _id:_.eq(wxContext.OPENID)
   }).get()
 
-  //判断用户是否存在
-  if (usetExist === 1){
-    //返回给小程序端
-    return {
-      event,
-      openid: wxContext.OPENID,
-      appid: wxContext.APPID,
-      unionid: wxContext.UNIONID,
-      env: wxContext.ENV,
-      userExist: usetExist,
-    }
-    
-  }
+  // return {
+  //   UserExist: true,
+  //   dbResult: dbResults,
+  // }
+  
 
+    // var dbResults = await UserCollection.doc(wxContext.OPENID)
+
+
+
+    //已注册
+  if (dbResults.data.length!=0){
+
+    return {
+      UserExist: true,
+      dbResult: dbResults,
+    }
+  }
+  //未注册
   else{
-    return {
-      event,
-      userExist: usetExist,
-    }
+    //增加用户openid
 
+    await UserCollection.add({
+      data: {
+        _id: wxContext.OPENID,
+        // RegStmp: new Date(),
+        UserNickName: "",
+        UserAge:"",
+        // UserPictureUrl:"",
+        // UserLoc:"",
+      }
+    })
+
+    return {
+      UserExist: false,
+    }
   }
+
+
+
+  // console.log(userExist)
+
+
+  
+
+
+
+
+
+  
+
 
 
 

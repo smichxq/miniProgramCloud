@@ -8,8 +8,8 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     CalculateData:"",
-    userOpenid:"",
     userInfoCanShow: false,
+    openidExistInCloud:false,
   },
 
   /**
@@ -27,10 +27,26 @@ Page({
     })
     .then(res => {
       console.log("success")
-      this.setData({
-        "userOpenid": res.result.openid,
-        "hasUserInfo": true
-      })
+
+
+
+      //用户未注册-点击按钮后进入个人信息设置页面并传送调用login
+      if (!res.result.UserExist){
+        this.setData({
+          openidExistInCloud: false
+        })
+        
+      }
+      //用户已注册
+      else {
+        this.setData({
+          userInfo: res.result.dbResult,
+          openidExistInCloud: true
+        })
+        console.log(res.result.dbResult.data[0]._id)
+      }
+      
+
     })
     .catch(console.error)
 
