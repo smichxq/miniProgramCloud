@@ -30,7 +30,7 @@ Page({
     .then(res => {
       console.log("success")
 
-      //用户未注册-点击按钮后进入个人信息设置页面并传送调用login
+      //用户未注册-点击按钮后进入个人信息设置页面并上传信息到云端
       if (!res.result.UserExist){
         this.setData({
           openidExistInDB: false
@@ -118,7 +118,8 @@ Page({
 
       //未存在的用户已在访问期间自动存放openid到DB
       else{
-        //调用数据库引用上传数据到数据库
+        //调用云函数将用户图片存储至服务器
+        
         //上传到主页面
 
       }
